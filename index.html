@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Alameda Community Resources</title>
+  <!-- The below link allows for the little book icon, it needs to be before the stylesheet link -->
+<link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+  integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
+  crossorigin="anonymous"
+  referrerpolicy="no-referrer"
+/> 
+
+  <link rel="stylesheet" href="style.css">
+  <script src="script.js" defer></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1"> <!-- reactive view -->
+</head>
+<body class="bg-gray-50 min-h-screen">
+    <!-- Header -->
+    <header class="bg-indigo-600 text-white shadow-lg">
+        <div class="container mx-auto px-4 py-6">
+            <div class="flex justify-between items-center">
+                <div class="flex items-center space-x-2">
+                    <i class="fas fa-book-open text-2xl"></i>
+                    <h1 class="text-2xl font-bold">AlCoRe: Alameda Community Resources</h1>
+                </div>
+                <button id="addBtn" class="bg-white text-indigo-600 px-4 py-2 rounded-full font-medium hover:bg-indigo-50 transition flex items-center space-x-2 hidden">
+                    <i class="fas fa-plus"></i>
+                    <span>Add Listing</span>
+                </button>
+                <div id="adminIndicator" class="text-xs text-white opacity-70 hidden">Admin Mode</div>
+            </div>
+            <div class="mt-6">
+                <!-- Search Bar, bg-white sets background color -->
+                <div class="relative max-w-xl mx-auto">
+                    <input type="text" placeholder="Search listings..." class="w-full bg-white px-4 py-3 rounded-full shadow focus:outline-none focus:ring-2 focus:ring-indigo-400 text-gray-800">
+                    <button class="absolute right-3 top-3 text-gray-500 hover:text-indigo-600">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 py-8">
+        <!-- Categories -->
+        <div class="mb-8 overflow-x-auto">
+            <div class="flex space-x-2 pb-2">
+                <button class="category-btn px-4 py-2 bg-indigo-600 text-white rounded-full whitespace-nowrap">All</button>
+                <button class="category-btn px-4 py-2 bg-gray-200 hover:bg-gray-300 rounded-full whitespace-nowrap">Education</button>
+                <button class="category-btn px-4 py-2 bg-gray-200 hover:bg-gray-300 rounded-full whitespace-nowrap">Utilities</button>
+                <button class="category-btn px-4 py-2 bg-gray-200 hover:bg-gray-300 rounded-full whitespace-nowrap">Legal</button>
+                <button class="category-btn px-4 py-2 bg-gray-200 hover:bg-gray-300 rounded-full whitespace-nowrap">Information</button>
+                <button class="category-btn px-4 py-2 bg-gray-200 hover:bg-gray-300 rounded-full whitespace-nowrap">Food</button>
+                <button class="category-btn px-4 py-2 bg-gray-200 hover:bg-gray-300 rounded-full whitespace-nowrap">Health</button>
+                <button class="category-btn px-4 py-2 bg-gray-200 hover:bg-gray-300 rounded-full whitespace-nowrap">Transportation</button>
+                <button class="category-btn px-4 py-2 bg-gray-200 hover:bg-gray-300 rounded-full whitespace-nowrap">Events</button>
+                <button class="category-btn px-4 py-2 bg-gray-200 hover:bg-gray-300 rounded-full whitespace-nowrap">Organization</button>
+                <button class="category-btn px-4 py-2 bg-gray-200 hover:bg-gray-300 rounded-full whitespace-nowrap">Finance</button>
+            </div>
+        </div>
+
+        <!-- Directory Listings -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6" id="directoryList">
+            <!-- Cards will be added here dynamically -->
+        </div>
+    </main>
+
+    <!-- Add Listing Modal -->
+    <div id="addModal" class="modal fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50 hidden">
+        <div class="modal-content bg-white rounded-xl shadow-2xl max-w-md w-full max-h-[90vh] overflow-y-auto">
+            <div class="p-6">
+                <div class="flex justify-between items-center mb-4">
+                    <h2 class="text-xl font-bold text-gray-800">Add New Listing</h2>
+                    <button id="closeModal" class="text-gray-500 hover:text-gray-700">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                
+                <form id="listingForm" class="space-y-4">
+                    <div>
+                        <label class="block text-gray-700 mb-2">Listing Name</label>
+                        <input type="text" id="listingName" class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-indigo-400 focus:border-indigo-400" required>
+                    </div>
+                    
+                    <div>
+                        <label class="block text-gray-700 mb-2">Category</label>
+                        <select id="listingCategory" class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-indigo-400 focus:border-indigo-400">
+                            <option value="Business">Business</option>
+                            <option value="Services">Services</option>
+                            <option value="Restaurants">Restaurants</option>
+                            <option value="Shopping">Shopping</option>
+                            <option value="Health">Health</option>
+                        </select>
+                    </div>
+                    
+                    <div>
+                        <label class="block text-gray-700 mb-2">Description</label>
+                        <textarea id="listingDescription" rows="3" class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-indigo-400 focus:border-indigo-400"></textarea>
+                    </div>
+                    
+                    <div>
+                        <label class="block text-gray-700 mb-2">Website URL</label>
+                        <input type="url" id="listingUrl" class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-indigo-400 focus:border-indigo-400">
+                    </div>
+                    
+                    <div>
+                        <label class="block text-gray-700 mb-2">Image</label>
+                        <div class="border-2 border-dashed border-gray-300 rounded-lg p-4 text-center">
+                            <div id="imagePreview" class="image-preview w-full h-40 bg-gray-100 rounded-lg mb-2 flex items-center justify-center">
+                                <span class="text-gray-500">No image selected</span>
+                            </div>
+                            <input type="file" id="listingImage" accept="image/*" class="hidden">
+                            <button type="button" id="uploadBtn" class="px-4 py-2 bg-gray-200 hover:bg-gray-300 rounded-lg text-gray-700">
+                                <i class="fas fa-upload mr-2"></i>Upload Image
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="pt-4">
+                        <button type="submit" class="w-full bg-indigo-600 text-white py-3 rounded-lg font-medium hover:bg-indigo-700 transition">
+                            Add Listing
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-8">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div>
+                    <h3 class="text-xl font-bold mb-4">Alameda Community Resources</h3>
+                    <p class="text-gray-400">A comprehensive directory of non commercial community resources in the City of Alameda.</p>
+                </div>
+                <div>
+                    <h3 class="text-xl font-bold mb-4">Quick Links</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-white">Home</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">About Us</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Contact</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Privacy Policy</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-xl font-bold mb-4">Connect With Us</h3>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-400 hover:text-white text-2xl"><i class="fab fa-facebook"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white text-2xl"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white text-2xl"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white text-2xl"><i class="fab fa-linkedin"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="border-t border-gray-700 mt-8 pt-6 text-center text-gray-400">
+                <p>&copy; 2025 Alameda Community Resources, Creative Commons non commercial.</p>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>
