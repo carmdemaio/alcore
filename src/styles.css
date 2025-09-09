@@ -1,0 +1,6 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* if you kept your old rules in style.base.css, import them: */
+@import "../style.base.css";
